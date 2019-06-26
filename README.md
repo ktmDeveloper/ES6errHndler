@@ -30,7 +30,7 @@ const checkCharMaxLength = (fieldValue, fieldName, compareLength) =>
     : "";
 
 // for each field, we can specify what type of checks we can to do.
-// For checks like 'checkCharMinLength', we use currying. We only get two parameters passed to these function.
+// For 'checkCharMinLength', we use currying. We only get two parameters passed to these function.
 // The third parameter is the length to be compared, which we can hardcode here itself.
 const inputCriteria = {
   firstName: [
@@ -55,14 +55,17 @@ const inputCriteria = {
 
 // spread operator / destructuring / functional JS
 const getErrorMessage = (inputs, criteria) => {
+
   // For each keys in input we run the test.
   return Object.keys(inputs)
     .reduce((acc, fieldName) => {
+    
       // we want to return the accumulator with additional field if there is error for that field,
       // or else we return empty string
       return [
         ...acc,
         ...criteria[fieldName].reduce((acc, test) => {
+        
           // we only keep the first error. All other are ignored for that field.
           // if we want to show all the errors for the field, we can use .map()
           if (!acc.length) {
@@ -72,11 +75,13 @@ const getErrorMessage = (inputs, criteria) => {
             }
             return acc;
           }
+          
           return acc;
         }, [])
       ];
-      // we filter the result and only return the field that has some value in it.
     }, [])
+    
+     // we filter the result and only return the field that has some value in it.
     .filter(error => error.length);
 };
 
