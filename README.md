@@ -1,5 +1,5 @@
-# ES6errHndler
-Error handling done right in with ES6 syntax
+# ES6 Error Handling
+## Error handling done right in with ES6 syntax
 
 ```javascript
 // values to test
