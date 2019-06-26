@@ -2,13 +2,6 @@
 ## Error handling done right in with ES6 syntax
 
 ```javascript
-// values to test
-const currVals = {
-  firstName: "testName",
-  lastName: "",
-  zipCode: "12345",
-  state: "AX"
-};
 
 // these are the functions that test our inputs. Each function only handles one type of check.
 const checkIfEmpty = (fieldValue, fieldName) =>
@@ -28,30 +21,6 @@ const checkCharMaxLength = (fieldValue, fieldName, compareLength) =>
   fieldValue.length >= compareLength
     ? `${fieldName} must be less than ${compareLength} characters`
     : "";
-
-// for each field, we can specify what type of checks we can to do.
-// For 'checkCharMinLength', we use currying. We only get two parameters passed to these function.
-// The third parameter is the length to be compared, which we can hardcode here itself.
-const inputCriteria = {
-  firstName: [
-    checkIfEmpty,
-    (fieldValue, fieldName) => checkCharMinLength(fieldValue, fieldName, 2),
-    (fieldValue, fieldName) => checkCharMaxLength(fieldValue, fieldName, 20)
-  ],
-  lastName: [
-    checkIfEmpty,
-    (fieldValue, fieldName) => checkCharMinLength(fieldValue, fieldName, 2),
-    (fieldValue, fieldName) => checkCharMaxLength(fieldValue, fieldName, 20)
-  ],
-  zipCode: [
-    checkIfEmpty,
-    (fieldValue, fieldName) => checkCharEqualLength(fieldValue, fieldName, 5)
-  ],
-  state: [
-    checkIfEmpty,
-    (fieldValue, fieldName) => checkCharEqualLength(fieldValue, fieldName, 2)
-  ]
-};
 
 // spread operator / destructuring / functional JS
 const getErrorMessage = (inputs, criteria) => {
@@ -84,6 +53,40 @@ const getErrorMessage = (inputs, criteria) => {
      // we filter the result and only return the field that has some value in it.
     .filter(error => error.length);
 };
+
+
+// for each field, we can specify what type of checks we want to do.
+// For 'checkCharMinLength', we use currying. We only get two parameters passed to these function.
+// The third parameter is the length to be compared, which we can hardcode here itself.
+const inputCriteria = {
+  firstName: [
+    checkIfEmpty,
+    (fieldValue, fieldName) => checkCharMinLength(fieldValue, fieldName, 2),
+    (fieldValue, fieldName) => checkCharMaxLength(fieldValue, fieldName, 20)
+  ],
+  lastName: [
+    checkIfEmpty,
+    (fieldValue, fieldName) => checkCharMinLength(fieldValue, fieldName, 2),
+    (fieldValue, fieldName) => checkCharMaxLength(fieldValue, fieldName, 20)
+  ],
+  zipCode: [
+    checkIfEmpty,
+    (fieldValue, fieldName) => checkCharEqualLength(fieldValue, fieldName, 5)
+  ],
+  state: [
+    checkIfEmpty,
+    (fieldValue, fieldName) => checkCharEqualLength(fieldValue, fieldName, 2)
+  ]
+};
+
+// values to test
+const currVals = {
+  firstName: "testName",
+  lastName: "",
+  zipCode: "12345",
+  state: "AX"
+};
+
 
 console.log(getErrorMessage(currVals, inputCriteria));
 
